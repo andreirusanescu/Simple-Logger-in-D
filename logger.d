@@ -66,25 +66,30 @@ if (is(Data == struct) || is(Data == class)) {
 	// check if object has method toString
 	static if(__traits(hasMember, Data, "toString") && isFunction!(obj.toString)) {
 		output.put(obj.toString());
+		
+		// generic toString for Data
 	} else {
 		output.put(__traits(identifier, Data));
 		output.put('(');
 
-		// iterate through all members of type Data
-		static foreach(member; __traits(allMembers, Data)) {
+		// iterate through all members of type Data at compile time
+		static foreach(member; __traits(allMembers, Data))
+		{{
 			// gets that member;
-			alias Member = __traits(getMember, Data, member);
+			mixin("alias Member = __traits(getMember, Data, member);");
 
 			/* check if member is not a function and if it
 			   does not contain enum NoLog -> if it had NoLog
 			   data it should not have been printed */
 
 			if (!isFunction!(Member) && !hasUDA!(Member, NoLog)) {
+
+				// insert obj.member at compile time => much faster
 				auto memberValue = mixin("obj." ~ member);
 				output.put(memberValue.to!string);
 				output.put(", ");
 			}
-		}
+		}}
 		output.put(')');
 	}
 	return output.data.idup();
@@ -126,7 +131,14 @@ unittest
 		}
 	}
 
-   Boss firstBoss = Boss("Iudex Gundyr", 1, Stats(3000, false));
+	struct Dog {
+		string name;
+		int number;
+	}
+
+   	Boss firstBoss = Boss("Iudex Gundyr", 1, Stats(3000, false));
 	assert("[warn] logger.d: Boss(Iudex Gundyr, 1, Stats(3000, false))" ==
 		   firstBoss.log(LogLevel.Warning));
+	Dog rex = Dog("Rex", 1);
+	writeln(rex.log(LogLevel.Warning));
 }
