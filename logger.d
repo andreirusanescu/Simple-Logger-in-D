@@ -112,7 +112,7 @@ unittest
 		bool optional;
 
 		string toString() const {
-			return "Stats(" ~ souls.to!string ~ ", " ~ optional.to!string ~ ")";
+			return __traits(identifier, Stats) ~ "(" ~ souls.to!string ~ ", " ~ optional.to!string ~ ")";
 		}
 	}
 
@@ -122,7 +122,7 @@ unittest
 		Stats stats;
 
 		string toString() const {
-			return "Boss(" ~ name ~ ", " ~ number.to!string ~ ", " ~ stats.to!string ~ ")";
+			return __traits(identifier, Boss) ~ "(" ~ name ~ ", " ~ number.to!string ~ ", " ~ stats.to!string ~ ")";
 		}
 	}
 
