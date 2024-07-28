@@ -1,2 +1,12 @@
+DMD = dmd
+DFLAGS = -unittest -main
+
 BINARY = logger
-include ../Makefile
+
+all: $(BINARY)
+
+$(BINARY): $(BINARY).d
+	$(DMD) $(DFLAGS) $(BINARY).d
+
+clean:
+	rm -f $(BINARY) $(BINARY).o
