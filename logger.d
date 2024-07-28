@@ -140,6 +140,7 @@ unittest
    	Boss firstBoss = Boss("Iudex Gundyr", 1, Stats(3000, false));
 	assert("[warn] logger.d: Boss(Iudex Gundyr, 1, Stats(3000, false))" ==
 		   firstBoss.log(LogLevel.Warning));
+
 	Dog rex = Dog("Rex", 1, Stats(6000, true));
-	writeln(rex.log(LogLevel.Warning));
+	assert("[warn] logger.d: Dog(Rex, 1, )" == rex.log(LogLevel.Warning));
 }
