@@ -134,11 +134,12 @@ unittest
 	struct Dog {
 		string name;
 		int number;
+		@NoLog Stats stats;
 	}
 
    	Boss firstBoss = Boss("Iudex Gundyr", 1, Stats(3000, false));
 	assert("[warn] logger.d: Boss(Iudex Gundyr, 1, Stats(3000, false))" ==
 		   firstBoss.log(LogLevel.Warning));
-	Dog rex = Dog("Rex", 1);
+	Dog rex = Dog("Rex", 1, Stats(6000, true));
 	writeln(rex.log(LogLevel.Warning));
 }
